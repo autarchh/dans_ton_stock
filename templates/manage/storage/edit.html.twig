@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification de ' ~ storage.name %}
+
+{% block body %}
+    <h1>Modifier {{storage.name}}</h1>
+    
+    <turbo-frame id="storage" target="_top">
+        {{ include("manage/storage/_form.html.twig", {"submit_button_label": 'Modifier'}) }}
+    </turbo-frame>
+
+    <p><a href="{{path('manage_storage_show', {'id': storage.id})}}">Retour</a></p>
+    
+{% endblock %}

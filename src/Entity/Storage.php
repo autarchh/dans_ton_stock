@@ -38,7 +38,7 @@ class Storage
     private $storageCategory;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="storage")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="storage", orphanRemoval=true)
      */
     private $products;
 

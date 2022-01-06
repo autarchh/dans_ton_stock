@@ -30,12 +30,12 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="date_immutable")
+     * @ORM\Column(type="date")
      */
     private $addAt;
 
     /**
-     * @ORM\Column(type="date_immutable")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $bbDate;
 
@@ -57,9 +57,15 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=Storage::class, inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $storage;
+
+    public function __construct()
+    {
+        $this->addAt = new \DateTime();
+        $this->bbdate = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -90,24 +96,24 @@ class Product
         return $this;
     }
 
-    public function getAddAt(): ?\DateTimeImmutable
+    public function getAddAt(): ?\DateTimeInterface
     {
         return $this->addAt;
     }
 
-    public function setAddAt(\DateTimeImmutable $addAt): self
+    public function setAddAt(\DateTimeInterface $addAt): self
     {
         $this->addAt = $addAt;
 
         return $this;
     }
 
-    public function getBbDate(): ?\DateTimeImmutable
+    public function getBbDate(): ?\DateTimeInterface
     {
         return $this->bbDate;
     }
 
-    public function setBbDate(\DateTimeImmutable $bbDate): self
+    public function setBbDate(\DateTimeInterface $bbDate): self
     {
         $this->bbDate = $bbDate;
 

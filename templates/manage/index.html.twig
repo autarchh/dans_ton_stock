@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer{% endblock %}
+
+{% block body %}
+
+{% for storage in storages %}
+    <a href="{{path('manage_storage_show', {'id': storage.id })}}"><button class="storage">{{storage.name}}</button></a>
+{% else %}
+    <p>Aucun lieu de stockage enregistré. <a href="{{path('manage_storage_new')}} ">En créer un ?</a></p>
+            
+{% endfor %}
+
+
+{% endblock %}

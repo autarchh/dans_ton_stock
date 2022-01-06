@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Vos produits' %}
+
+{% block body %}
+    <h1>{{pluralize(products|length, 'produit')}} en stock </h1>
+    <table>
+        <thead>
+            <th>Nom</th>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td><a href="{{path('product_show', {'id': product.id})}}">{{product.name}}</a></td>
+            </tr>
+            {% else %}
+                Aucun produit en stock. <a href="{{path('product_new')}}">En ajouter ?</a>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

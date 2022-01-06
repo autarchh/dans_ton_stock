@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Dans ton Stock{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Dans ton Stock
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<header>
+		<nav>
+			<a href="{{path('product_index')}}">Dans Ton Stock</a>
+			<a href="{{path('manage_index')}}">Gestion</a>
+		</nav>
+	</header>
+	<body>
+        {{ include('_messages.html.twig') }}
+		{% block body %}{% endblock %}
+	</body>
 </html>

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Dans ' ~ storage.name %}
+
+{% block body %}
+    <turbo-frame id="storage">
+        <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr ?') && document.querySelector('#storage-deletion-form-{{storage.id}}').submit()">Supprimer {{storage.name}}</a>
+        <form id="storage-deletion-form-{{storage.id}}" method="POST" action="{{path('manage_storage_delete',{'id': storage.id})}}" style="display: none;">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="csrf_token" value="{{csrf_token('storage_deletion_' ~ storage.id)}}">
+            <button type="submit">Supprimer</button>
+        </form>
+
+	    <h1>{{storage.name}}</h1>
+        <p> 
+            <a href="{{path('manage_storage_edit', {'id': storage.id})}}">Modifier</a>
+            <a href="{{path('manage_index')}}" data-turbo-frame="_top">Retour</a>
+        </p>
+    </turbo-frame>
+
+	{% for product in storage.products %}
+        {{product.name}}
+    {% else %}
+        <p>Pas de produit enregistré dans ce lieu.</p>
+	{% endfor %}
+
+{% endblock %}

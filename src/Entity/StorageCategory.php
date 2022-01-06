@@ -24,11 +24,6 @@ class StorageCategory
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
     private $type;
 
     /**
@@ -44,18 +39,6 @@ class StorageCategory
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getType(): ?string

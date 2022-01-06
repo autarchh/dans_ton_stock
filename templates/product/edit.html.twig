@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification de ' ~ product.name %}
+
+{% block body %}
+    <h1>Modifier {{product.name}}</h1>
+    
+    <turbo-frame id="product" target="_top">
+        {{ include("product/_form.html.twig", {"submit_button_label": 'Modifier'}) }}
+    </turbo-frame>
+
+    <p><a href="{{path('product_show', {'id': product.id})}}">Retour</a></p>
+    
+{% endblock %}

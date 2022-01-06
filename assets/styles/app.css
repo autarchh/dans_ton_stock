@@ -1,3 +1,27 @@
 body {
-    background-color: lightgray;
+    box-sizing: border-box;
+    background-color: lightgrey;
+    font-size: 16px;
+}
+
+a{
+    text-decoration: none;
+}
+.storage {
+    height: 15em;
+    width: 5em;
+    border-radius: 25%;
+    border: limegreen 5px solid;
+}
+button:hover {
+    background-color: limegreen;
+}
+.alert-success {
+    font-weight: 700;
+    color: green;
+}
+
+.alert-error {
+    font-weight: 700;
+    color: red;
 }
