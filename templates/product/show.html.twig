@@ -3,32 +3,26 @@
 {% block title product.name %}
 
 {% block body %}
-	<h1>{{product.name}}</h1>
-	<turbo-frame id="product">
-	<a href="#" onclick="event.preventDefault(); confirm('Êtes vous sûr ?') && document.querySelector('#product-deletion-form-{{product.id}}').submit()">Supprimer</a>
-	<form id="product-deletion-form-{{product.id}}" action="{{path('product_delete', {'id': product.id})}}" method="POST" style="display: none;">
-		<input type="hidden" name="_method" value="DELETE">
-		<input type="hidden" name="csrf_token" value="{{csrf_token('product_deletion_' ~ product.id)}}">
-		<button type="submit">Supprimer</button>
-	</form>
-		<p>
-			<a href="{{path('product_edit', {'id': product.id})}}">Modifier</a>
-			<a href="{{path('product_index')}}" data-turbo-frame="_top">Retour</a>
-		</p>
-	</turbo-frame>
 
-	<div>
+	<turbo-frame id="product">
+			<p>
+				<a href="{{path('product_index', {'id': app.user.id})}}" data-turbo-frame="_top"><i class="fas fa-arrow-left"></i></a>
+			</p>
+			<p><a href="{{path('product_edit', {'id': product.id})}}" data-turbo-frame="_top">Modifier</a></p>
+		</turbo-frame>
+	<h1>{{product.name}} - {{product.Storage}}</h1>
+	<img src="{{product.img}}" alt="">
 		<p>
 			Date de péremption :
 			{{product.bbDate|date('d-m-Y')}}
 		</p>
-		<p>
-			Description :
-			{{product.description}}
-		</p>
+		
+			<img src="{{asset('img/nutriscore-' ~ product.nutriscore ~ '.svg')}}" alt="nutriscore">
+		
 		<p>
 			Categories :
-			<a href="{{path('manage_category_show', {'id': product.category.id})}} ">{{product.category}}</a>
+			<a href="{{path('admin_category_show', {'id': product.category.id})}} ">{{product.category}}</a>
 		</p>
-	</div>
+		
+	
 {% endblock %}

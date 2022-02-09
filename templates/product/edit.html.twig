@@ -9,6 +9,6 @@
         {{ include("product/_form.html.twig", {"submit_button_label": 'Modifier'}) }}
     </turbo-frame>
 
-    <p><a href="{{path('product_show', {'id': product.id})}}">Retour</a></p>
+    <p><a href="{{path('product_show', {'id': product.id})}}"><i class="fas fa-arrow-left"></i></a></p>
     
 {% endblock %}

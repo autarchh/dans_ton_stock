@@ -22,16 +22,28 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('pluralize', [$this, 'pluralize']),
+            new TwigFunction('percentage', [$this, 'percentage']),
         ];
     }
 
-    public function pluralize(int $count, string $singular, ?string $plural = null)
-    {
-        if($plural = null){
+    public function pluralize($count, string $singular, ?string $plural = null)
+    {   
+        
+        if($plural == null){
             $plural = $singular . 's';
         }
         $str = $count > 1 ? $plural : $singular;
-
         return $count . ' ' . $str;
+    }
+
+    public function percentage(int $restTime)
+    {
+        $percent = floor($restTime * 100 / 7);
+       
+        if($percent > 100){
+            $percent = 100;
+        }
+
+        return $percent . '%';
     }
 }

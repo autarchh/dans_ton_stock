@@ -32,7 +32,36 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * @return Product[] Returns an array of Product objects
+     */
+    public function expiredProduct()
+    {
+        return $this->createQueryBuilder('p')
+            ->Where('DATE_DIFF(p.bbDate, CURRENT_DATE()) <= 0')
+            ->orderBy('p.bbDate', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
+     /**
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findAllWithTotalDays($user_id)
+    {
+        return $this->getEntityManager()
+                    ->createQuery(
+                    'SELECT p.name, p, DATE_DIFF(p.bbDate, CURRENT_DATE()) AS restTime, COUNT(p.id) AS totalProduct
+                    FROM App\Entity\Product p, App\Entity\Storage s
+                    WHERE p.storage = s.id
+                    AND s.user = :id
+                    GROUP BY p.id')
+                    ->setParameter('id', $user_id)
+                    ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Product

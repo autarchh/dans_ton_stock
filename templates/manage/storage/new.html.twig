@@ -4,9 +4,11 @@
 
 {% block body %}
     <h1>Nouveau lieu de stockage</h1>
+    
+    <turbo-frame id="new_storage" target="_top">
+        {% include "manage/storage/_form.html.twig" %}
+    </turbo-frame>
 
-    {% include "manage/storage/_form.html.twig" %}
-
-    <p><a href="{{path('manage_index')}}">Retour</a></p>
+    <p><a href="{{path('manage_index')}}"><i class="fas fa-arrow-left"></i></a></p>
     
 {% endblock %}

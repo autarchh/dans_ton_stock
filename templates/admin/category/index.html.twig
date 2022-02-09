@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!
+{% endblock %}
+
+{% block body %}
+	<div class="admin-container">
+		<div>
+			<h1>Catégories</h1>
+			<table id ="table">
+				<thead>
+					<th>Catégories</th>
+					<th>Actions</th>
+				</thead>
+				<tbody>
+					{% for category in categories %}
+						<tr>
+							<td>
+								{{category.name}}
+							</td>
+							<td>
+								<a href="{{path('admin_category_edit', {'id': category.id})}}"><i class="fas fa-edit"></i></a>
+								<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr ?') && document.querySelector('#category-deletion-form-{{category.id}}').submit()"><i class="fas fa-trash-alt"></i></a>
+								<form id="category-deletion-form-{{category.id}}" action="{{path('admin_category_delete', {'id': category.id})}}" method="POST" style="display: none;">
+									<input type="hidden" name="_method" value="DELETE">
+									<input type="hidden" name="csrf_token" value="{{csrf_token('category_deletion_' ~ category.id)}}">
+									<button type="submit">Supprimer</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br>
+			<turbo-frame id="new_category" src="{{path('admin_category_new')}}" target="_top"></turbo-frame>
+		</div>
+		
+{% endblock %}
+

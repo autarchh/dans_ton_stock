@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!
+{% endblock %}
+
+{% block body %}
+	<div>
+		<h1>Utilisateurs</h1>
+		<table id="table">
+			<thead>
+				<th>Pseudo</th>
+				<th>Email</th>
+				<th>Inscrit depuis</th>
+				<th>Email Vérifié</th>
+				<th>Actions</th>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>{{user.alias ?? 'non renseigné'}}</td>
+						<td>{{user.email}}</td>
+						<td>{{user.createdAt|date('d-m-Y')}}</td>
+						<td>{{user.isVerified ? 'Ok' : 'Non'}}</td>
+						<td>
+							<a href="{{path('manage_profile', {'id': user.id })}} ">
+								<i class="fas fa-edit"></i>
+							</a>
+							<a href="#" onclick="event.preventDefault(); confirm('Vous allez supprimer l\'utilisateur et tous ses produits !') && document.querySelector('#user-deletion-form-{{user.id}}').submit()">
+								<i class="fas fa-trash-alt"></i>
+							</a>
+
+							<form id="user-deletion-form-{{user.id}}" action="{{path('admin_user_delete', {'id': user.id})}}" method="post" style="display: none">
+								<input type="hidden" name="_method" value="DELETE">
+								<input type="hidden" name="csrf_token" value="{{csrf_token('user_deletion_' ~ user.id)}}">
+								<button type="submit">Supprimer</button>
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>{% endblock %}

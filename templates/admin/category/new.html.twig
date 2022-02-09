@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Nouvelle catégorie' %}
+
+{% block body %}
+    <h1>Ajouter une catégorie</h1>
+
+    <turbo-frame id="new_category" target="_top">
+        {% include "admin/category/_form.html.twig" %}
+    </turbo-frame>
+
+    <p><a href="{{path('manage_index')}}"><i class="fas fa-arrow-left"></i></a></p>
+    
+{% endblock %}

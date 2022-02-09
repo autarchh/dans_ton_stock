@@ -1,0 +1,13 @@
+
+{% block body %}
+
+<turbo-frame id="ean" target="_top">
+    <form action="{{path('product_new')}}" method="GET">
+        <label for="ean">
+            <input type="number" name="ean" id="ean" placeholder="Valider pour ajouter">
+        </label>
+        <input type="submit" value="Valider">
+    </form>
+</turbo-frame>
+
+{% endblock %}

@@ -19,22 +19,20 @@ class StorageRepository extends ServiceEntityRepository
         parent::__construct($registry, Storage::class);
     }
 
-    // /**
-    //  * @return Storage[] Returns an array of Storage objects
-    //  */
-    /*
-    public function findByExampleField($value)
+   
+    /**
+     * @return Storage[] Returns an array of Storage objects
+     */
+    public function findById($id)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('s.user = :val')
+            ->setParameter('val', $id)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Storage

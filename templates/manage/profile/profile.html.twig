@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title user.username %}
+
+{% block body %}
+	<div>
+      <turbo-frame id='user' target="_top">
+		<h1>{{user.alias}}<span class="modif"><a href="{{path('manage_profile_edit', {'id':user.id})}}">Modifier votre Alias</a></span></h1>
+         
+      </turbo-frame>
+		<div>
+			<p>Votre email :
+				{{user.email}}</p>
+			<p>
+				Incrit depuis le
+				{{user.createdAt|date('d-m-Y')}}
+			</p>
+		</div>
+		<turbo-frame id="reset_password" target="_top">
+			<a href="{{path('app_forgot_password_request', {'id': user.id})}} ">
+				<button>Changer le mot de passe</button>
+			</a>
+		</turbo-frame>
+	</div>
+
+{% endblock %}

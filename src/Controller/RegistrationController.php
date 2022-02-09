@@ -38,7 +38,7 @@ class RegistrationController extends AbstractController
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('password')->getData()
                 )
             );
 
@@ -51,15 +51,15 @@ class RegistrationController extends AbstractController
                     ->from(new Address('no-reply@danstonstock.fr', 'Dans Ton Stock'))
                     ->to($user->getEmail())
                     ->subject('Merci de confirmer votre Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('admin/registration/confirmation_email.html.twig')
             );
-            // do anything else you need here, like send an email
+            $this->addFlash('success', 'Vérifiez votre boîte mail.');
 
-            return $this->redirectToRoute('_profiler_home');
+            return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+        return $this->renderForm('admin/registration/register.html.twig', [
+            'registrationForm' => $form,
         ]);
     }
 
@@ -82,6 +82,13 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre Email a bien été vérifié.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('home');
+    }
+    /**
+     * @Route("register/terms", name="app_terms")
+     */
+    public function terms(): Response
+    {
+        return $this->render('admin/legal/terms.html.twig');
     }
 }

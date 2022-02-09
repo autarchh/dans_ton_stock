@@ -23,9 +23,10 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator, Security $security)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->security = $security;
     }
 
     public function authenticate(Request $request): Passport
@@ -42,14 +43,17 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
             ]
         );
     }
-
+   
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-
-        return new RedirectResponse($this->urlGenerator->generate('home'));
+        if (in_array('ROLE_ADMIN', $this->security->getUser()->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('admin_category_index'));
+        }
+        $user_id = $this->security->getUser()->getId();
+        return new RedirectResponse($this->urlGenerator->generate('product_index', ['id' => $user_id]));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

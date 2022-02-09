@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"email"}, message="Cet Email est déjà utilisé.")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -41,6 +46,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Storage::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $storages;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $alias;
+
+    public function __construct()
+    {
+        $this->storages = new ArrayCollection();
+        $this->createdAt = new DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -147,4 +173,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->isVerified;
     }
+
+    /**
+     * @return Collection|Storage[]
+     */
+    public function getStorages(): Collection
+    {
+        return $this->storages;
+    }
+
+    public function addStorage(Storage $storage): self
+    {
+        if (!$this->storages->contains($storage)) {
+            $this->storages[] = $storage;
+            $storage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStorage(Storage $storage): self
+    {
+        if ($this->storages->removeElement($storage)) {
+            // set the owning side to null (unless already changed)
+            if ($storage->getUser() === $this) {
+                $storage->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getAlias(): ?string
+    {
+        if($this->alias == null){
+        $exploded = explode('@',$this->email);
+        return $exploded['0'];
+        }
+        return $this->alias;
+    }
+
+    public function setAlias(?string $alias): self
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
 }

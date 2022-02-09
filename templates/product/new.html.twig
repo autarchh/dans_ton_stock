@@ -4,9 +4,14 @@
 
 {% block body %}
     <h1>Ajouter un produit</h1>
-
+    
+    <turbo-frame id="ean" target="_top">
+        {{include('product/_formEAN.html.twig')}}
+    </turbo-frame>
+    <br>
     {% include "product/_form.html.twig" %}
 
-    <p><a href="{{path('product_index')}}">Retour</a></p>
+
+    <p><a href="{{path('product_index', {'id': app.user.id})}}"><i class="fas fa-arrow-left"></i></a></p>
     
 {% endblock %}

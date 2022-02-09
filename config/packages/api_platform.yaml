@@ -1,0 +1,16 @@
+api_platform:
+    title: 'Dans Ton Stock'
+    description: 'API pour application mobile.'
+    version: '1.0.0'
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]
+doctrine:
+    orm:
+        filters:
+            user_filter:
+                class: App\Filter\UserFilter
+                enabled: true

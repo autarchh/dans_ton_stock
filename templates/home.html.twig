@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Dans Ton Stock' %}
+
+{% block body %}
+    <div class="home">
+        
+        <h2>Bienvenue dans le gestionnaire de votre stock alimentaire.</h2>
+        <p>Simplifiez la gestion de votre stock alimentaire et réduisez le gaspillage,
+    sans même y penser !</p>
+    </div>
+    <div class="link-div">
+        <a href="{{path('app_register')}}">Créer un compte pour commencer à ajouter de nouveaux produits</a>
+        <a href="{{path('app_login')}}">Connectez-vous</a>
+    </div>
+{% endblock %}

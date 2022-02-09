@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification de ' ~ user.alias %}
+
+{% block body %}
+    <h1>Modifier {{user.alias}}</h1>
+    
+    <turbo-frame id="user" target="_top">
+        {{ include("manage/profile/_form.html.twig") }}
+    </turbo-frame>
+
+    <p><a href="{{path('manage_profile', {'id': user.id})}}"><i class="fas fa-arrow-left"></i></a></p>
+    
+{% endblock %}

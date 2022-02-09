@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CategoryRepository;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource()
  * @Broadcast()
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
@@ -23,6 +26,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez entrer un nom pour la catégorie.")
      */
     private $name;
 

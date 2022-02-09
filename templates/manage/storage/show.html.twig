@@ -4,24 +4,43 @@
 
 {% block body %}
     <turbo-frame id="storage">
-        <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr ?') && document.querySelector('#storage-deletion-form-{{storage.id}}').submit()">Supprimer {{storage.name}}</a>
+        <h1>{{storage}}</h1>
+        <p> 
+            <a href="{{path('manage_storage_edit', {'id': storage.id})}}">Modifier</a>
+             <a href="#" onclick="event.preventDefault(); confirm('Tous les produits dans {{storage.name}} seront supprimés, êtes-vous sûr ?') && document.querySelector('#storage-deletion-form-{{storage.id}}').submit()">Supprimer {{storage.name}}</a>
         <form id="storage-deletion-form-{{storage.id}}" method="POST" action="{{path('manage_storage_delete',{'id': storage.id})}}" style="display: none;">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="csrf_token" value="{{csrf_token('storage_deletion_' ~ storage.id)}}">
             <button type="submit">Supprimer</button>
         </form>
-
-	    <h1>{{storage.name}}</h1>
-        <p> 
-            <a href="{{path('manage_storage_edit', {'id': storage.id})}}">Modifier</a>
-            <a href="{{path('manage_index')}}" data-turbo-frame="_top">Retour</a>
         </p>
     </turbo-frame>
 
-	{% for product in storage.products %}
-        {{product.name}}
-    {% else %}
-        <p>Pas de produit enregistré dans ce lieu.</p>
-	{% endfor %}
-
+	<table id="table">
+		<thead>
+			<th></th>
+			<th>Nom</th>
+			<th>Categorie</th>
+			<th>Dans</th>
+			<th>Utiliser</th>
+		</thead>
+		<tbody>
+		{% for product in storage.products %}
+			<tr>
+				<td><img class="index_img" src="{{product.imgThumb}}" alt=""></td>
+				<td><a href="{{path('product_show', {'id': product.id})}} ">{{product.name}}</a></td>
+				<td>{{product.category}}</td>
+				<td>{{product.storage}}</td>
+				<td><a href="#" onclick="event.preventDefault(); confirm('Êtes vous sûr ?') && document.querySelector('#product-deletion-form-{{product.id}}').submit()">Supprimer</a>
+			<form id="product-deletion-form-{{product.id}}" action="{{path('product_delete', {'id': product.id})}}" method="POST" style="display: none;">
+				<input type="hidden" name="_method" value="DELETE">
+				<input type="hidden" name="csrf_token" value="{{csrf_token('product_deletion_' ~ product.id)}}">
+				<button type="submit">Supprimer</button>
+			</form></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>	
+        <br>
+        <a href="{{path('manage_index')}}"><i class="fas fa-arrow-left"></i></a>
 {% endblock %}

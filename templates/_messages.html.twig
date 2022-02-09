@@ -5,7 +5,13 @@
 {% endfor %}
 
 {% for message in app.flashes('error') %}
-    <div class="alert-error" data-turbo-cache="false">
+    <div class="alert-error">
+        {{message}}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('notice') %}
+    <div class="alert-notice">
         {{message}}
     </div>
 {% endfor %}

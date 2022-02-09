@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\StorageCategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\StorageCategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * @ApiResource()
  * @Broadcast()
  * @ORM\Entity(repositoryClass=StorageCategoryRepository::class)
  */
@@ -30,6 +32,11 @@ class StorageCategory
      * @ORM\OneToMany(targetEntity=Storage::class, mappedBy="storageCategory")
      */
     private $storage;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $color;
 
     public function __construct()
     {
@@ -79,6 +86,18 @@ class StorageCategory
                 $storage->setStorageCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

@@ -16,14 +16,16 @@ class StorageType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'Nom'
 
             ])
             ->add('location', TextType::class, [
-
+                'label' => 'Emplacement'
             ])
             ->add('storageCategory', EntityType::class, [
                 'class' => StorageCategory::class,
-                'choice_label' => 'type'
+                'choice_label' => 'type',
+                'label' => 'Catégorie du stockage'
 
             ])
         ;

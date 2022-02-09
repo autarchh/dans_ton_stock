@@ -3,20 +3,171 @@
 {% block title 'Vos produits' %}
 
 {% block body %}
-    <h1>{{pluralize(products|length, 'produit')}} en stock </h1>
-    <table>
-        <thead>
-            <th>Nom</th>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td><a href="{{path('product_show', {'id': product.id})}}">{{product.name}}</a></td>
-            </tr>
-            {% else %}
-                Aucun produit en stock. <a href="{{path('product_new')}}">En ajouter ?</a>
-            {% endfor %}
-        </tbody>
-    </table>
+	<h1>{{pluralize(products|length, 'produit')}} en stock dont {{pluralize(productsExpired|length, 'périmé')}}</h1>
+
+	<table id="table">
+		<thead>
+			<th></th>
+			<th>Nom</th>
+			<th>Categorie</th>
+			<th>Qtt</th>
+			<th>Dans</th>
+			<th>Reste</th>
+			<th>Utiliser</th>
+		</thead>
+		<tbody>
+		{% for product in products %}
+			<tr>
+				<td><img class="index_img" src="{{product.0.imgThumb}}" alt=""></td>
+				<td><a href="{{path('product_show', {'id': product.0.id})}} ">{{product.name}}</a></td>
+				<td>{{product.0.category}}</td>
+				<td>{{product.0.qtt}} {{product.0.unit}}</td>
+				<td>{{product.0.storage}}</td>
+				<td>{{pluralize(product.restTime, 'jour')}}</td>
+				<td><a href="#" onclick="event.preventDefault(); confirm('Êtes vous sûr ?') && document.querySelector('#product-deletion-form-{{product.0.id}}').submit()">Supprimer</a>
+			<form id="product-deletion-form-{{product.0.id}}" action="{{path('product_delete', {'id': product.0.id})}}" method="POST" style="display: none;">
+				<input type="hidden" name="_method" value="DELETE">
+				<input type="hidden" name="csrf_token" value="{{csrf_token('product_deletion_' ~ product.0.id)}}">
+				<button type="submit">Supprimer</button>
+			</form></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>	
+<br>
+	<turbo-frame id="ean" src="{{path('product_new')}}" target="_top"></turbo-frame>
+
+		{# <table id="table">
+			<thead>
+				<th></th>
+				<th>Nom</th>
+				<th>Categorie</th>
+				<th>Dans</th>
+				<th>Reste</th>
+			</thead>
+			<tbody>
+			{% if productsExpired %}
+		<tr><td></td><td><h2>Trop tard</h2></td><td></td><td></td><td></td></tr>
+		{% else %}
+			<tr><td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td></tr>
+		{% endif %}
+		{% for product in productsExpired %}
+				<tr>
+					<td><img class="index_img" src="{{product.0.imgThumb}}" alt=""></td>
+					<td><a href="{{path('product_show', {'id': product.0.id})}} ">{{product.name}}</a></td>
+					<td>{{product.0.category}}</td>
+					<td>{{product.0.storage}}</td>
+					<td>{{pluralize(product.restTime, 'jour')}}</td>
+				</tr>
+		{% endfor %}
+		{% if productsNow %}
+		<tr><td></td><td><h2>Dernier jour !</h2></td><td></td><td></td><td></td></tr>
+		{% else %}
+			<tr><td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td></tr>
+		{% endif %}
+		{% for product in productsNow %}
+				<tr>
+					<td><img class="index_img" src="{{product.0.imgThumb}}" alt=""></td>
+					<td><a href="{{path('product_show', {'id': product.0.id})}} ">{{product.name}}</a></td>
+					<td>{{product.0.category}}</td>
+					<td>{{product.0.storage}}</td>
+					<td>{{pluralize(product.restTime, 'jour')}}</td>
+				</tr>
+		{% endfor %}
+
+		{% if productsOneWeek %}
+		<tr><td></td><td><h2>0 à 6 jours</h2></td><td></td><td></td><td></td></tr>
+		{% else %}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		{% endif %}
+		{% for product in productsOneWeek %}
+				<tr>
+					<td><img class="index_img" src="{{product.0.imgThumb}}" alt=""></td>
+					<td><a href="{{path('product_show', {'id': product.0.id})}} ">{{product.name}}</a></td>
+					<td>{{product.0.category}}</td>
+					<td>{{product.0.storage}}</td>
+					<td>{{pluralize(product.restTime, 'jour')}}</td>
+				</tr>
+		{% endfor %}
+
+		{% if productsOneMonth %}
+		<tr><td><h2>1 sem à 1 mois</h2></td><td></td><td></td><td></td><td></td></tr>
+		{% else %}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		{% endif %}
+		{% for product in productsOneMonth %} 
+				<tr>
+					<td><img class="index_img" src="{{product.0.imgThumb}}" alt=""></td>
+					<td><a href="{{path('product_show', {'id': product.0.id})}} ">{{product.name}}</a></td>
+					<td>{{product.0.category}}</td>
+					<td>{{product.0.storage}}</td>
+					<td>{{pluralize(product.restTime, 'jour')}}</td>
+				</tr>
+		{% endfor %}
+		
+		{% if productsTwoMonth %}
+		<tr><td></td><td><h2>1 à 3 mois</h2></td><td></td><td></td><td></td></tr>
+		{% else %}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		{% endif %}
+		{% for product in productsTwoMonth %}
+				<tr>
+					<td><img class="index_img" src="{{product.0.imgThumb}}" alt=""></td>
+					<td><a href="{{path('product_show', {'id': product.0.id})}} ">{{product.name}}</a></td>
+					<td>{{product.0.category}}</td>
+					<td>{{product.0.storage}}</td>
+					<td>{{pluralize(product.restTime, 'jour')}}</td>
+				</tr>
+		{% endfor %}
+		
+		{% if productsMore %}
+		<tr><td></td><td><h2>3 mois et plus</h2></td><td></td><td></td><td></td></tr>
+		{% else %}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		{% endif %}
+		{% for product in productsMore %}
+				<tr>
+					<td><img class="index_img" src="{{product.0.imgThumb}}" alt=""></td>
+					<td><a href="{{path('product_show', {'id': product.0.id})}} ">{{product.name}}</a></td>
+					<td>{{product.0.category}}</td>
+					<td>{{product.0.storage}}</td>
+					<td>{{pluralize(product.restTime, 'jour')}}</td>
+				</tr>
+		{% endfor %}
+			</tbody>
+		</table> #}
+	
 
 {% endblock %}

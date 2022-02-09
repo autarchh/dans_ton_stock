@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\StorageRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StorageRepository;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use App\Annotation\UserAware;
 
 /**
- * @Broadcast()
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=StorageRepository::class)
+ * @UserAware(userFieldName="user_id")
  */
 class Storage
 {
@@ -23,6 +28,7 @@ class Storage
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Veuillez entrer un nom pour le lieu de Stockage.")
      */
     private $name;
 
@@ -41,6 +47,12 @@ class Storage
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="storage", orphanRemoval=true)
      */
     private $products;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="storages")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -114,6 +126,23 @@ class Storage
                 $product->setStorage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name . ' (' . $this->location . ')';
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
