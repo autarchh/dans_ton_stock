@@ -80,7 +80,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=Storage::class, inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * 
      * @Groups({"article:read", "article:write"})
      */

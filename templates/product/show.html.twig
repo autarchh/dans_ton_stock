@@ -4,25 +4,23 @@
 
 {% block body %}
 
-	<turbo-frame id="product">
-			<p>
-				<a href="{{path('product_index', {'id': app.user.id})}}" data-turbo-frame="_top"><i class="fas fa-arrow-left"></i></a>
-			</p>
-			<p><a href="{{path('product_edit', {'id': product.id})}}" data-turbo-frame="_top">Modifier</a></p>
-		</turbo-frame>
 	<h1>{{product.name}} - {{product.Storage}}</h1>
-	<img src="{{product.img}}" alt="">
-		<p>
-			Date de péremption :
-			{{product.bbDate|date('d-m-Y')}}
-		</p>
-		
+	<div class="card-product">
+		<img src="{{product.img}}" alt="produit">
+		<div class="card-product-text">
+			<p>Date de péremption :{{product.bbDate|date('d-m-Y')}}</p>
+			<p>Categorie : <a href="{{path('admin_category_show', {'id': product.category.id})}} ">{{product.category}}</a></p>	
 			<img src="{{asset('img/nutriscore-' ~ product.nutriscore ~ '.svg')}}" alt="nutriscore">
-		
+		</div>
+	</div>
+	<turbo-frame id="product">
 		<p>
-			Categories :
-			<a href="{{path('admin_category_show', {'id': product.category.id})}} ">{{product.category}}</a>
+			<a href="{{path('product_index', {'id': app.user.id})}}" data-turbo-frame="_top"><i class="fas fa-arrow-left"></i></a>
 		</p>
+		<p>
+			<a href="{{path('product_edit', {'id': product.id})}}" data-turbo-frame="_top">Modifier</a>
+		</p>
+	</turbo-frame>
 		
 	
 {% endblock %}

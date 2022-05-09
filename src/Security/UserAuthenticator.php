@@ -50,7 +50,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
         if (in_array('ROLE_ADMIN', $this->security->getUser()->getRoles())) {
-            return new RedirectResponse($this->urlGenerator->generate('admin_category_index'));
+            return new RedirectResponse($this->urlGenerator->generate('admin_user_index'));
         }
         $user_id = $this->security->getUser()->getId();
         return new RedirectResponse($this->urlGenerator->generate('product_index', ['id' => $user_id]));

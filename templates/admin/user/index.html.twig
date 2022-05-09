@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!
-{% endblock %}
+{% block title 'Utilisateurs' %}
 
 {% block body %}
 	<div>
@@ -25,15 +24,18 @@
 							<a href="{{path('manage_profile', {'id': user.id })}} ">
 								<i class="fas fa-edit"></i>
 							</a>
+							{% if "ROLE_ADMIN" in user.roles %}
+								
+							{% else %}		
 							<a href="#" onclick="event.preventDefault(); confirm('Vous allez supprimer l\'utilisateur et tous ses produits !') && document.querySelector('#user-deletion-form-{{user.id}}').submit()">
 								<i class="fas fa-trash-alt"></i>
 							</a>
-
 							<form id="user-deletion-form-{{user.id}}" action="{{path('admin_user_delete', {'id': user.id})}}" method="post" style="display: none">
 								<input type="hidden" name="_method" value="DELETE">
 								<input type="hidden" name="csrf_token" value="{{csrf_token('user_deletion_' ~ user.id)}}">
 								<button type="submit">Supprimer</button>
 							</form>
+							{% endif %}
 						</td>
 					</tr>
 				{% endfor %}

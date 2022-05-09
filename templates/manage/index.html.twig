@@ -5,18 +5,15 @@
 
 {% block body %}
 	<div>
-        <h1>{{pluralize(storages|length, 'lieu', 'lieux')}}</h1>
+		<h1>{{pluralize(storages|length, 'lieu', 'lieux')}}</h1>
 		{% for storage in storages %}
-			<p>
-				<a href="{{path('manage_storage_show', {'id': storage.id })}}">{{storage.name}}</a>
-			</p>
+			<div class="storage-div">
+				<a href="{{path('manage_storage_show', {'id': storage.id })}}">{{storage.name}} ({{storage.location}}) </span></a>
+			</div>
 		{% else %}
-			<p>
-				<a href="{{path('manage_storage_new')}} ">Créez un lieu de stockage.</a>
-			</p>
+			<a href="{{path('manage_storage_new')}} ">Créez un lieu de stockage.</a>
 		{% endfor %}
 	</div>
 	<br>
 	<turbo-frame id="new_storage" src="{{path('manage_storage_new')}}" target="_top"></turbo-frame>
 {% endblock %}
-

@@ -28,13 +28,13 @@ class ProductDataPersister implements ContextAwareDataPersisterInterface
     {
        return $data instanceof Product;
     }
+
     /**
      * @param Product $data
      */
     public function persist($data, array $context = [])
     {
         $data->setSlug($this->_slugger->slug(mb_strtolower($data->getName())) . '-' . uniqid());
-
         $this->_entityManager->persist($data);
         $this->_entityManager->flush();
     }

@@ -21,10 +21,9 @@
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Se souvenir de moi
-        </label>
+    <div class="remember-form">
+        <input type="checkbox" name="_remember_me"> 
+        <p>Se souvenir de moi</p>
     </div>
 
     <button class="btn btn-lg btn-primary" type="submit">
